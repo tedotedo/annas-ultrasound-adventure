@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Gentle floating animation for the main image */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+/* Gradient background - warm and inviting like the book illustrations */
+.bg-gradient-fun {
+  background: linear-gradient(165deg, #FFF5EB 0%, #E8F4FD 50%, #F0E6FF 100%);
+}
