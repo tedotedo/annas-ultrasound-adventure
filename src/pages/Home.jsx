@@ -68,27 +68,27 @@ function Home() {
         </header>
 
         {/* Navigation Buttons */}
-        <nav className="w-full max-w-md space-y-3 md:space-y-4 px-2">
+        <nav className="w-full max-w-md space-y-1.5 md:space-y-2 px-2">
           {menuItems.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className={`block w-full ${item.bgColor} rounded-2xl md:rounded-3xl p-4 md:p-5
-                         shadow-lg hover:shadow-xl
+              className={`block w-full ${item.bgColor} rounded-lg md:rounded-xl py-2 px-3 md:py-2.5 md:px-4
+                         shadow-md hover:shadow-lg
                          transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
-                         border-2 border-white/70 ${item.borderColor}
-                         focus:outline-none focus:ring-3 focus:ring-primary-blue focus:ring-offset-2`}
+                         border border-white/70 ${item.borderColor}
+                         focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2`}
             >
-              <div className="flex items-center gap-3 md:gap-4">
+              <div className="flex items-center gap-2">
                 <div className="flex-1 min-w-0">
-                  <span className="text-base md:text-lg font-bold text-text-dark font-heading block">
+                  <span className="text-sm font-bold text-text-dark font-heading block">
                     {item.label}
                   </span>
-                  <span className="text-sm text-text-light/90 block">
+                  <span className="text-xs text-text-light/90 block">
                     {item.description}
                   </span>
                 </div>
-                <span className="text-text-light/60 text-xl md:text-2xl flex-shrink-0">→</span>
+                <span className="text-text-light/60 text-base flex-shrink-0">→</span>
               </div>
             </Link>
           ))}
