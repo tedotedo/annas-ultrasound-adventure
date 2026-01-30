@@ -13,16 +13,23 @@ function Home() {
     const video = videoRef.current;
     if (!video) return;
 
+    const fadeDuration = 1.5; // seconds for fade in/out
+    const maxOpacity = 0.15;
+    const minOpacity = 0.02;
+
     const handleTimeUpdate = () => {
       const timeLeft = video.duration - video.currentTime;
-      // Fade out in last 0.5 seconds
-      if (timeLeft < 0.5) {
-        video.style.opacity = Math.max(0.05, (timeLeft / 0.5) * 0.15);
-      } else if (video.currentTime < 0.5) {
-        // Fade in during first 0.5 seconds
-        video.style.opacity = Math.min(0.15, (video.currentTime / 0.5) * 0.15);
+
+      if (timeLeft < fadeDuration) {
+        // Fade out near the end
+        const progress = timeLeft / fadeDuration;
+        video.style.opacity = minOpacity + (maxOpacity - minOpacity) * progress;
+      } else if (video.currentTime < fadeDuration) {
+        // Fade in at the start
+        const progress = video.currentTime / fadeDuration;
+        video.style.opacity = minOpacity + (maxOpacity - minOpacity) * progress;
       } else {
-        video.style.opacity = 0.15;
+        video.style.opacity = maxOpacity;
       }
     };
 
@@ -86,12 +93,12 @@ function Home() {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
+            transform: 'translate(-50%, -50%) scale(1.5)',
+            width: '100vw',
+            height: '100vh',
+            objectFit: 'cover',
             opacity: 0.15,
+            transition: 'opacity 0.3s ease-out',
           }}
         />
       </div>
