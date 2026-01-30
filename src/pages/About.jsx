@@ -45,18 +45,6 @@ function About() {
             confident before their hospital visit.
           </p>
         </section>
-          <p className="text-text-light text-sm md:text-base mb-3">
-            <strong>Anna's Ultrasound Adventure</strong> was written by{' '}
-            <strong>Dr Moira McCarty</strong> to help children understand what happens
-            during an ultrasound scan. Through Anna's story, young readers can learn
-            about the scan room, meet the friendly staff, and see that there's nothing
-            to be scared of.
-          </p>
-          <p className="text-text-light text-sm md:text-base">
-            The book aims to reduce anxiety and help children feel prepared and
-            confident before their hospital visit.
-          </p>
-        </section>
 
         {/* Website creator section */}
         <section className="bg-white/80 rounded-2xl p-5 md:p-6 shadow-md mb-4">
