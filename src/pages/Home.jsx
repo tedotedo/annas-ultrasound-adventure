@@ -1,12 +1,24 @@
 import { Link } from 'react-router-dom';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
-// Import images and video from the book
+// Import images and videos from the book
 import scanRoom from '../../assets/images/scenes/scan_room.png';
-import backgroundVideo from '../../assets/images/scenes/Animated_Chat_Video_Generation.mp4';
+import backgroundVideoDesktop from '../../assets/images/scenes/Animated_Chat_Video_Generation_16by9.mp4';
+import backgroundVideoMobile from '../../assets/images/scenes/Animated_Chat_Video_Generation_9by16.mp4';
 
 function Home() {
   const videoRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Handle responsive video switching
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fade effect for smooth looping
   useEffect(() => {
@@ -84,7 +96,8 @@ function Home() {
       >
         <video
           ref={videoRef}
-          src={backgroundVideo}
+          key={isMobile ? 'mobile' : 'desktop'}
+          src={isMobile ? backgroundVideoMobile : backgroundVideoDesktop}
           autoPlay
           loop
           muted
