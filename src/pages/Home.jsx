@@ -94,17 +94,35 @@ function Home() {
           ))}
         </nav>
 
+        {/* About Button */}
+        <div className="w-full max-w-md px-2 mt-4">
+          <Link
+            to="/about"
+            className="block w-full bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg md:rounded-xl py-2 px-3 md:py-2.5 md:px-4
+                       shadow-md hover:shadow-lg
+                       transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
+                       border border-white/70 hover:border-purple-400
+                       focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2"
+          >
+            <div className="flex items-center gap-2">
+              <div className="flex-1 min-w-0">
+                <span className="text-sm font-bold text-text-dark font-heading block">
+                  About & Privacy
+                </span>
+                <span className="text-xs text-text-light/90 block">
+                  Meet the author and more
+                </span>
+              </div>
+              <span className="text-text-light/60 text-base flex-shrink-0">→</span>
+            </div>
+          </Link>
+        </div>
+
         {/* Footer */}
-        <footer className="mt-auto pt-6 md:pt-8 text-center">
+        <footer className="mt-auto pt-4 md:pt-6 text-center">
           <p className="text-text-light text-sm">
             Based on the book by Dr Moira McCarty
           </p>
-          <Link
-            to="/about"
-            className="text-primary-blue text-sm hover:underline mt-1 inline-block"
-          >
-            About & Privacy
-          </Link>
         </footer>
       </div>
     </div>
