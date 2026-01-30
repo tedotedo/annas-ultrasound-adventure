@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import annaWithTedrick from '../../assets/images/characters/anna_with_tedrick.png';
+import moiraMcCarty from '../../assets/images/authors/moira_mccarty.jpg';
 
 function About() {
   return (
@@ -20,20 +20,31 @@ function About() {
           </h1>
         </header>
 
-        {/* Book image */}
-        <div className="flex justify-center mb-6">
-          <img
-            src={annaWithTedrick}
-            alt="Anna with Tedrick"
-            className="w-40 md:w-48 rounded-2xl border-4 border-white shadow-lg"
-          />
-        </div>
-
         {/* Author section */}
         <section className="bg-white/80 rounded-2xl p-5 md:p-6 shadow-md mb-4">
-          <h2 className="text-lg md:text-xl font-bold text-text-dark font-heading mb-3">
-            About the Book
-          </h2>
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4">
+            <img
+              src={moiraMcCarty}
+              alt="Dr Moira McCarty"
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg object-cover flex-shrink-0"
+            />
+            <div>
+              <h2 className="text-lg md:text-xl font-bold text-text-dark font-heading mb-2 text-center sm:text-left">
+                About the Author
+              </h2>
+              <p className="text-text-light text-sm md:text-base">
+                <strong>Dr Moira McCarty</strong> wrote "Anna's Ultrasound Adventure" to help
+                children understand what happens during an ultrasound scan. Through Anna's
+                story, young readers can learn about the scan room, meet the friendly staff,
+                and see that there's nothing to be scared of.
+              </p>
+            </div>
+          </div>
+          <p className="text-text-light text-sm md:text-base">
+            The book aims to reduce anxiety and help children feel prepared and
+            confident before their hospital visit.
+          </p>
+        </section>
           <p className="text-text-light text-sm md:text-base mb-3">
             <strong>Anna's Ultrasound Adventure</strong> was written by{' '}
             <strong>Dr Moira McCarty</strong> to help children understand what happens
