@@ -63,25 +63,38 @@ function Home() {
   return (
     <div className="min-h-screen bg-gradient-fun relative overflow-hidden">
       {/* Animated background video - subtle and reassuring */}
-      <video
-        ref={videoRef}
-        src={backgroundVideo}
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-hidden="true"
+      <div
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           width: '100vw',
           height: '100vh',
-          opacity: 0.15,
+          overflow: 'hidden',
           zIndex: 0,
-          objectFit: 'cover',
         }}
-      />
+        aria-hidden="true"
+      >
+        <video
+          ref={videoRef}
+          src={backgroundVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            minWidth: '100%',
+            minHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+            opacity: 0.15,
+          }}
+        />
+      </div>
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center px-4 py-6 md:py-8 min-h-screen">
