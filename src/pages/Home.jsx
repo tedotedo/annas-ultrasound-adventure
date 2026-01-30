@@ -1,10 +1,34 @@
 import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
 
 // Import images and video from the book
 import scanRoom from '../../assets/images/scenes/scan_room.png';
 import backgroundVideo from '../../assets/images/scenes/Animated_Chat_Video_Generation.mp4';
 
 function Home() {
+  const videoRef = useRef(null);
+
+  // Fade effect for smooth looping
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTimeUpdate = () => {
+      const timeLeft = video.duration - video.currentTime;
+      // Fade out in last 0.5 seconds
+      if (timeLeft < 0.5) {
+        video.style.opacity = Math.max(0.05, (timeLeft / 0.5) * 0.15);
+      } else if (video.currentTime < 0.5) {
+        // Fade in during first 0.5 seconds
+        video.style.opacity = Math.min(0.15, (video.currentTime / 0.5) * 0.15);
+      } else {
+        video.style.opacity = 0.15;
+      }
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+  }, []);
   const menuItems = [
     {
       to: '/team',
@@ -40,12 +64,14 @@ function Home() {
     <div className="min-h-screen bg-gradient-fun relative overflow-hidden">
       {/* Animated background video - subtle and reassuring */}
       <video
+        ref={videoRef}
         src={backgroundVideo}
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-15"
+        className="fixed inset-0 w-screen h-screen object-cover transition-opacity duration-300"
+        style={{ opacity: 0.15 }}
         aria-hidden="true"
       />
 
