@@ -70,14 +70,20 @@ function Home() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 object-cover transition-opacity duration-300"
-        style={{
-          opacity: 0.15,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 0,
-        }}
         aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          opacity: 0.15,
+          zIndex: 0,
+          objectFit: 'cover',
+        }}
       />
 
       {/* Main content */}
