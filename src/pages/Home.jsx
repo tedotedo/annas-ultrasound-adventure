@@ -70,11 +70,12 @@ function Home() {
         loop
         muted
         playsInline
-        className="fixed top-0 left-0 min-w-full min-h-full object-cover transition-opacity duration-300 -z-10"
+        className="absolute top-0 left-0 object-cover transition-opacity duration-300"
         style={{
           opacity: 0.15,
           width: '100vw',
           height: '100vh',
+          zIndex: 0,
         }}
         aria-hidden="true"
       />
