@@ -99,6 +99,12 @@ function Home() {
           <p className="text-text-light text-sm">
             Based on the book by Dr Moira McCarty
           </p>
+          <Link
+            to="/about"
+            className="text-primary-blue text-sm hover:underline mt-1 inline-block"
+          >
+            About & Privacy
+          </Link>
         </footer>
       </div>
     </div>

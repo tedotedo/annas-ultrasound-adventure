@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         {/* Additional routes will be added here */}
         <Route path="/team" element={<PlaceholderPage title="Meet the Team" />} />
         <Route path="/explore" element={<PlaceholderPage title="Explore the Scan Room" />} />
