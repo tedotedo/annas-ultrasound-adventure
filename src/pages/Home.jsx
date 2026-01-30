@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 
 // Import images and video from the book
 import scanRoom from '../../assets/images/scenes/scan_room.png';
-import scanRoomVideo from '../../assets/images/scenes/Animated_Chat_Video_Generation.mp4';
-import waitingRoom from '../../assets/images/scenes/waiting_room.png';
+import backgroundVideo from '../../assets/images/scenes/Animated_Chat_Video_Generation.mp4';
 
 function Home() {
   const menuItems = [
@@ -39,10 +38,14 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-fun relative overflow-hidden">
-      {/* Background image from the book - cheerful waiting room scene */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
-        style={{ backgroundImage: `url(${waitingRoom})` }}
+      {/* Animated background video - subtle and reassuring */}
+      <video
+        src={backgroundVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-15"
         aria-hidden="true"
       />
 
@@ -50,23 +53,13 @@ function Home() {
       <div className="relative z-10 flex flex-col items-center px-4 py-6 md:py-8 min-h-screen">
         {/* Header with Anna and Tedrick */}
         <header className="text-center mb-4 md:mb-6">
-          {/* Animated scan room scene */}
+          {/* Anna with Tedrick image from the book */}
           <div className="mb-3 md:mb-4">
-            <video
-              src={scanRoomVideo}
-              poster={scanRoom}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-64 md:w-80 object-contain rounded-3xl border-4 border-white shadow-lg mx-auto"
-            >
-              {/* Fallback to static image if video doesn't load */}
-              <img
-                src={scanRoom}
-                alt="Anna with Tedrick and Mum in the scan room"
-              />
-            </video>
+            <img
+              src={scanRoom}
+              alt="Anna with Tedrick and Mum in the scan room"
+              className="w-64 md:w-80 object-contain rounded-3xl border-4 border-white shadow-lg mx-auto animate-float-slow"
+            />
           </div>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-1 md:mb-2">
