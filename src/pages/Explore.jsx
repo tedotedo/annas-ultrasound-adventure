@@ -43,7 +43,6 @@ function Explore() {
           </p>
         </header>
 
-
         {/* Interactive Image Container */}
         <div className="relative w-full rounded-2xl overflow-hidden shadow-xl border-4 border-white">
           <img

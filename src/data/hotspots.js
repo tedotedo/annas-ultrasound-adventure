@@ -16,8 +16,8 @@ export const hotspots = [
   {
     id: 'probe',
     name: 'Probe',
-    x: 58,
-    y: 47,
+    x: 65.4,
+    y: 47.4,
     explanation: "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!"
   },
   {

@@ -172,7 +172,7 @@ Located in `assets/images/pages/`
 |------|-------------------|------|---------------------------|
 | Screen | 73.2%, 34.0% | "Screen" | "This is the screen where you can watch the pictures! You might see your tummy, your heart, or even your breakfast moving around. It's like magic!" |
 | Ultrasound Machine | 68.5%, 51.8% | "Ultrasound Machine" | "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!" |
-| Probe | 58%, 47% | "Probe" | "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!" |
+| Probe | 65.4%, 47.4% | "Probe" | "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!" |
 | Couch | 82.2%, 62.9% | "Couch" | "This is the comfy couch where you lie down during your scan. You can bring your teddy or favourite toy to keep you company!" |
 | Gel | 99.2%, 60.5% | "Gel" | "This is special gel that goes on your tummy. It feels a bit cold and squishy, like jelly! It helps the doctor take clearer pictures." |
 | Tissue Paper | 78.7%, 53.9% | "Tissue Paper" | "These are soft tissues for wiping off the gel when your scan is finished. Easy peasy - all clean in no time!" |
