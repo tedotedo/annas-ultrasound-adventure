@@ -81,13 +81,24 @@ Located in `assets/images/scenes/`
 | `corridor.png` | Hospital corridor |
 | `waiting_room.png` | Hospital waiting room |
 
-### Videos
+### Background Videos
 Located in `assets/images/scenes/`
 
 | File | Aspect Ratio | Usage |
 |------|--------------|-------|
 | `Animated_Chat_Video_Generation_16by9.mp4` | 16:9 | Desktop background |
 | `Animated_Chat_Video_Generation_9by16.mp4` | 9:16 | Mobile background |
+
+### Character Videos
+Located in `assets/images/characters/`
+
+| File | Character | Usage |
+|------|-----------|-------|
+| `anna_explains_nothing_to_be_scared_of.mp4` | Anna | Say Hello! page - plays on card click |
+| `annas-mum-video.mp4` | Mum | Say Hello! page - plays on card click |
+| `tedrick-portrait-video.mp4` | Tedrick | Say Hello! page - plays on card click |
+| `carly.mp4` | Carly | Say Hello! page - plays on card click |
+| `drnicky.mp4` | Dr Nicky | Say Hello! page - plays on card click |
 
 ### Book Pages
 Located in `assets/images/pages/`
@@ -138,9 +149,10 @@ Located in `assets/images/pages/`
 **Implementation:**
 - Grid of 5 character cards (responsive: 2 columns mobile, 3 columns desktop)
 - Back to Home button
-- Tap card to hear character introduction via text-to-speech
-- Speaker icon shows audio state (idle/playing)
-- Uses resized images for faster loading
+- Tap card to play character video with audio introduction
+- Video plays inline with controls (playsInline, preload="auto" for mobile compatibility)
+- Uses resized images as poster/thumbnail for faster loading
+- Videos include: Anna, Mum, Tedrick, Dr Nicky, Carly
 
 **Characters:**
 
@@ -359,3 +371,17 @@ src/
 - Renamed "Meet the Team" to "Say Hello!" for friendlier UX
 - Renamed "Nicky" to "Dr Nicky"
 - Fixed case-sensitive filename issue for Netlify deployment (Tedrick.png)
+- Added character videos for all 5 characters on Say Hello! page
+- Fixed video playback on mobile (preload="auto", playsInline, promise handling)
+- Updated scan room image to new scan-room.png
+- Repositioned all 6 hotspots with accurate coordinates:
+  - Screen (73.2%, 34.0%)
+  - Ultrasound Machine (68.5%, 51.8%)
+  - Probe (65.4%, 47.4%)
+  - Couch (82.2%, 62.9%)
+  - Gel (99.2%, 60.5%)
+  - Tissue Paper (78.7%, 53.9%)
+- Updated child-friendly explanations for all scan room hotspots
+
+### How to Update Hotspot Voice Scripts
+To change the voice/text for scan room hotspots, edit `src/data/hotspots.js`. Each hotspot has an `explanation` field that controls both the displayed text and the spoken audio.
