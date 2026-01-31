@@ -1,3 +1,11 @@
+# Anna's Ultrasound Adventure
+
+## Related Book
+
+View the book on Canva: [Anna's Ultrasound Adventure Book](https://www.canva.com/design/DAG5FoYmt5M/y4P9-0iL5JZj7szeMFRT3A/view?utm_content=DAG5FoYmt5M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7dc5b2ebe8)
+
+---
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -51,8 +51,8 @@ function Home() {
   const menuItems = [
     {
       to: '/team',
-      label: 'Meet the Team',
-      description: 'Say hello to Anna, Tedrick and friends',
+      label: 'Say Hello!',
+      description: 'Meet Anna, Tedrick and friends',
       bgColor: 'bg-gradient-to-br from-pink-100 to-pink-200',
       borderColor: 'hover:border-pink-400',
     },
