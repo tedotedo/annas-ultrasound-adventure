@@ -1,16 +1,21 @@
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { characters } from '../data/characters';
 import { useSpeech } from '../hooks/useSpeech';
 
 // Import character images (resized versions)
-import anna from '../../assets/images/characters/reszied_images/anna.jpg';
+import annaImg from '../../assets/images/characters/reszied_images/anna.jpg';
 import mum from '../../assets/images/characters/reszied_images/annas-mum.jpg';
 import tedrick from '../../assets/images/characters/reszied_images/Tedrick.png';
 import nicky from '../../assets/images/characters/reszied_images/nicky.jpg';
 import carly from '../../assets/images/characters/reszied_images/carly.png';
 
+// Import character videos
+import annaVideo from '../../assets/images/videos/anna_explains_nothing_to_be_scared_of.mp4';
+import mumVideo from '../../assets/images/videos/annas-mum-video.mp4';
+
 const imageMap = {
-  'anna.jpg': anna,
+  'anna.jpg': annaImg,
   'annas-mum.jpg': mum,
   'Tedrick.png': tedrick,
   'nicky.jpg': nicky,
@@ -19,13 +24,71 @@ const imageMap = {
 
 function Team() {
   const { speak, stop, isSpeaking, currentId } = useSpeech();
+  const [annaPlaying, setAnnaPlaying] = useState(false);
+  const [mumPlaying, setMumPlaying] = useState(false);
+  const annaVideoRef = useRef(null);
+  const mumVideoRef = useRef(null);
+
+  const stopAllVideos = () => {
+    if (annaPlaying) {
+      annaVideoRef.current?.pause();
+      annaVideoRef.current.currentTime = 0;
+      setAnnaPlaying(false);
+    }
+    if (mumPlaying) {
+      mumVideoRef.current?.pause();
+      mumVideoRef.current.currentTime = 0;
+      setMumPlaying(false);
+    }
+  };
 
   const handleCardClick = (character) => {
+    // Special handling for Anna - play video instead of TTS
+    if (character.id === 'anna') {
+      if (annaPlaying) {
+        annaVideoRef.current?.pause();
+        annaVideoRef.current.currentTime = 0;
+        setAnnaPlaying(false);
+      } else {
+        stop(); // Stop any other TTS
+        stopAllVideos(); // Stop other videos
+        annaVideoRef.current?.play();
+        setAnnaPlaying(true);
+      }
+      return;
+    }
+
+    // Special handling for Mum - play video instead of TTS
+    if (character.id === 'mum') {
+      if (mumPlaying) {
+        mumVideoRef.current?.pause();
+        mumVideoRef.current.currentTime = 0;
+        setMumPlaying(false);
+      } else {
+        stop(); // Stop any other TTS
+        stopAllVideos(); // Stop other videos
+        mumVideoRef.current?.play();
+        setMumPlaying(true);
+      }
+      return;
+    }
+
+    // Stop all videos if playing
+    stopAllVideos();
+
     if (isSpeaking && currentId === character.id) {
       stop();
     } else {
       speak(character.audio, character.id);
     }
+  };
+
+  const handleAnnaVideoEnd = () => {
+    setAnnaPlaying(false);
+  };
+
+  const handleMumVideoEnd = () => {
+    setMumPlaying(false);
   };
 
   return (
@@ -54,7 +117,13 @@ function Team() {
         {/* Character Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {characters.map((character) => {
-            const isActive = isSpeaking && currentId === character.id;
+            const isActive = character.id === 'anna'
+              ? annaPlaying
+              : character.id === 'mum'
+              ? mumPlaying
+              : (isSpeaking && currentId === character.id);
+
+            const hasVideo = character.id === 'anna' || character.id === 'mum';
 
             return (
               <button
@@ -66,17 +135,51 @@ function Team() {
                            ${isActive ? 'ring-2 ring-primary-blue shadow-xl scale-[1.02]' : ''}
                            ${character.id === 'anna' ? 'col-span-2 md:col-span-1' : ''}`}
               >
-                {/* Character Image */}
+                {/* Character Image or Video */}
                 <div className="relative mb-3">
-                  <img
-                    src={imageMap[character.image]}
-                    alt={character.name}
-                    className="w-24 h-24 md:w-32 md:h-32 mx-auto object-contain rounded-full
-                               bg-soft-blue p-2"
-                  />
+                  {character.id === 'anna' ? (
+                    // Anna has a video
+                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
+                      <img
+                        src={imageMap[character.image]}
+                        alt={character.name}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${annaPlaying ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <video
+                        ref={annaVideoRef}
+                        src={annaVideo}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${annaPlaying ? 'opacity-100' : 'opacity-0'}`}
+                        onEnded={handleAnnaVideoEnd}
+                        playsInline
+                      />
+                    </div>
+                  ) : character.id === 'mum' ? (
+                    // Mum has a video
+                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
+                      <img
+                        src={imageMap[character.image]}
+                        alt={character.name}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <video
+                        ref={mumVideoRef}
+                        src={mumVideo}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-100' : 'opacity-0'}`}
+                        onEnded={handleMumVideoEnd}
+                        playsInline
+                      />
+                    </div>
+                  ) : (
+                    <img
+                      src={imageMap[character.image]}
+                      alt={character.name}
+                      className="w-24 h-24 md:w-32 md:h-32 mx-auto object-contain rounded-full
+                                 bg-soft-blue p-2"
+                    />
+                  )}
 
-                  {/* Speaker icon */}
-                  <div className={`absolute bottom-0 right-1/2 translate-x-8 md:translate-x-12
+                  {/* Speaker/Play icon */}
+                  <div className={`absolute bottom-0 right-1/2 ${hasVideo ? 'translate-x-12 md:translate-x-16' : 'translate-x-8 md:translate-x-12'}
                                   w-8 h-8 rounded-full flex items-center justify-center
                                   transition-all duration-300
                                   ${isActive
