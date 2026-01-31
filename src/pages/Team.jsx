@@ -13,6 +13,9 @@ import carly from '../../assets/images/characters/reszied_images/carly.png';
 // Import character videos
 import annaVideo from '../../assets/images/videos/anna_explains_nothing_to_be_scared_of.mp4';
 import mumVideo from '../../assets/images/videos/annas-mum-video.mp4';
+import tedrickVideo from '../../assets/images/videos/tedrick-portrait-video.mp4';
+import carlyVideo from '../../assets/images/videos/carly.mp4';
+import nickyVideo from '../../assets/images/videos/drnicky.mp4';
 
 const imageMap = {
   'anna.jpg': annaImg,
@@ -26,8 +29,14 @@ function Team() {
   const { speak, stop, isSpeaking, currentId } = useSpeech();
   const [annaPlaying, setAnnaPlaying] = useState(false);
   const [mumPlaying, setMumPlaying] = useState(false);
+  const [tedrickPlaying, setTedrickPlaying] = useState(false);
+  const [carlyPlaying, setCarlyPlaying] = useState(false);
+  const [nickyPlaying, setNickyPlaying] = useState(false);
   const annaVideoRef = useRef(null);
   const mumVideoRef = useRef(null);
+  const tedrickVideoRef = useRef(null);
+  const carlyVideoRef = useRef(null);
+  const nickyVideoRef = useRef(null);
 
   const stopAllVideos = () => {
     if (annaPlaying) {
@@ -39,6 +48,21 @@ function Team() {
       mumVideoRef.current?.pause();
       mumVideoRef.current.currentTime = 0;
       setMumPlaying(false);
+    }
+    if (tedrickPlaying) {
+      tedrickVideoRef.current?.pause();
+      tedrickVideoRef.current.currentTime = 0;
+      setTedrickPlaying(false);
+    }
+    if (carlyPlaying) {
+      carlyVideoRef.current?.pause();
+      carlyVideoRef.current.currentTime = 0;
+      setCarlyPlaying(false);
+    }
+    if (nickyPlaying) {
+      nickyVideoRef.current?.pause();
+      nickyVideoRef.current.currentTime = 0;
+      setNickyPlaying(false);
     }
   };
 
@@ -85,6 +109,69 @@ function Team() {
       return;
     }
 
+    // Special handling for Tedrick - play video instead of TTS
+    if (character.id === 'tedrick') {
+      if (tedrickPlaying) {
+        tedrickVideoRef.current?.pause();
+        tedrickVideoRef.current.currentTime = 0;
+        setTedrickPlaying(false);
+      } else {
+        stop(); // Stop any other TTS
+        stopAllVideos(); // Stop other videos
+        setTedrickPlaying(true);
+        const playPromise = tedrickVideoRef.current?.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Tedrick video play failed:', error);
+            setTedrickPlaying(false);
+          });
+        }
+      }
+      return;
+    }
+
+    // Special handling for Carly - play video instead of TTS
+    if (character.id === 'carly') {
+      if (carlyPlaying) {
+        carlyVideoRef.current?.pause();
+        carlyVideoRef.current.currentTime = 0;
+        setCarlyPlaying(false);
+      } else {
+        stop(); // Stop any other TTS
+        stopAllVideos(); // Stop other videos
+        setCarlyPlaying(true);
+        const playPromise = carlyVideoRef.current?.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Carly video play failed:', error);
+            setCarlyPlaying(false);
+          });
+        }
+      }
+      return;
+    }
+
+    // Special handling for Dr Nicky - play video instead of TTS
+    if (character.id === 'nicky') {
+      if (nickyPlaying) {
+        nickyVideoRef.current?.pause();
+        nickyVideoRef.current.currentTime = 0;
+        setNickyPlaying(false);
+      } else {
+        stop(); // Stop any other TTS
+        stopAllVideos(); // Stop other videos
+        setNickyPlaying(true);
+        const playPromise = nickyVideoRef.current?.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Dr Nicky video play failed:', error);
+            setNickyPlaying(false);
+          });
+        }
+      }
+      return;
+    }
+
     // Stop all videos if playing
     stopAllVideos();
 
@@ -101,6 +188,18 @@ function Team() {
 
   const handleMumVideoEnd = () => {
     setMumPlaying(false);
+  };
+
+  const handleTedrickVideoEnd = () => {
+    setTedrickPlaying(false);
+  };
+
+  const handleCarlyVideoEnd = () => {
+    setCarlyPlaying(false);
+  };
+
+  const handleNickyVideoEnd = () => {
+    setNickyPlaying(false);
   };
 
   return (
@@ -133,9 +232,15 @@ function Team() {
               ? annaPlaying
               : character.id === 'mum'
               ? mumPlaying
+              : character.id === 'tedrick'
+              ? tedrickPlaying
+              : character.id === 'carly'
+              ? carlyPlaying
+              : character.id === 'nicky'
+              ? nickyPlaying
               : (isSpeaking && currentId === character.id);
 
-            const hasVideo = character.id === 'anna' || character.id === 'mum';
+            const hasVideo = true; // All characters now have videos
 
             return (
               <button
@@ -180,6 +285,60 @@ function Team() {
                         src={mumVideo}
                         className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-100' : 'opacity-0'}`}
                         onEnded={handleMumVideoEnd}
+                        playsInline
+                        muted={false}
+                        preload="auto"
+                      />
+                    </div>
+                  ) : character.id === 'tedrick' ? (
+                    // Tedrick has a video
+                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
+                      <img
+                        src={imageMap[character.image]}
+                        alt={character.name}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${tedrickPlaying ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <video
+                        ref={tedrickVideoRef}
+                        src={tedrickVideo}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${tedrickPlaying ? 'opacity-100' : 'opacity-0'}`}
+                        onEnded={handleTedrickVideoEnd}
+                        playsInline
+                        muted={false}
+                        preload="auto"
+                      />
+                    </div>
+                  ) : character.id === 'carly' ? (
+                    // Carly has a video
+                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
+                      <img
+                        src={imageMap[character.image]}
+                        alt={character.name}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${carlyPlaying ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <video
+                        ref={carlyVideoRef}
+                        src={carlyVideo}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${carlyPlaying ? 'opacity-100' : 'opacity-0'}`}
+                        onEnded={handleCarlyVideoEnd}
+                        playsInline
+                        muted={false}
+                        preload="auto"
+                      />
+                    </div>
+                  ) : character.id === 'nicky' ? (
+                    // Dr Nicky has a video
+                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
+                      <img
+                        src={imageMap[character.image]}
+                        alt={character.name}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${nickyPlaying ? 'opacity-0' : 'opacity-100'}`}
+                      />
+                      <video
+                        ref={nickyVideoRef}
+                        src={nickyVideo}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${nickyPlaying ? 'opacity-100' : 'opacity-0'}`}
+                        onEnded={handleNickyVideoEnd}
                         playsInline
                         muted={false}
                         preload="auto"
