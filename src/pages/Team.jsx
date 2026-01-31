@@ -52,8 +52,14 @@ function Team() {
       } else {
         stop(); // Stop any other TTS
         stopAllVideos(); // Stop other videos
-        annaVideoRef.current?.play();
         setAnnaPlaying(true);
+        const playPromise = annaVideoRef.current?.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Anna video play failed:', error);
+            setAnnaPlaying(false);
+          });
+        }
       }
       return;
     }
@@ -67,8 +73,14 @@ function Team() {
       } else {
         stop(); // Stop any other TTS
         stopAllVideos(); // Stop other videos
-        mumVideoRef.current?.play();
         setMumPlaying(true);
+        const playPromise = mumVideoRef.current?.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Mum video play failed:', error);
+            setMumPlaying(false);
+          });
+        }
       }
       return;
     }
@@ -151,6 +163,8 @@ function Team() {
                         className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${annaPlaying ? 'opacity-100' : 'opacity-0'}`}
                         onEnded={handleAnnaVideoEnd}
                         playsInline
+                        muted={false}
+                        preload="auto"
                       />
                     </div>
                   ) : character.id === 'mum' ? (
@@ -167,6 +181,8 @@ function Team() {
                         className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-100' : 'opacity-0'}`}
                         onEnded={handleMumVideoEnd}
                         playsInline
+                        muted={false}
+                        preload="auto"
                       />
                     </div>
                   ) : (
