@@ -4,7 +4,7 @@ import { hotspots } from '../data/hotspots';
 import { useSpeech } from '../hooks/useSpeech';
 
 // Import scan room image
-import scanRoom from '../../assets/images/scenes/scan_room.png';
+import scanRoom from '../../assets/images/scan-room.png';
 
 function Explore() {
   const [selectedHotspot, setSelectedHotspot] = useState(null);
@@ -42,6 +42,7 @@ function Explore() {
             Tap the glowing circles to learn about each thing!
           </p>
         </header>
+
 
         {/* Interactive Image Container */}
         <div className="relative w-full rounded-2xl overflow-hidden shadow-xl border-4 border-white">

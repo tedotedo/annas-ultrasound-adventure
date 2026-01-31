@@ -159,8 +159,8 @@ Located in `assets/images/pages/`
 **Purpose:** Familiarise children with equipment, reducing anxiety.
 
 **Implementation:**
-- Full-width scan room image (`scan_room.png`)
-- 7 interactive hotspots with pulse animation
+- Full-width scan room image (`scan-room.png` in assets/images/)
+- 6 interactive hotspots with pulse animation
 - Info panel slides up from bottom when hotspot tapped
 - Text-to-speech reads explanation
 - "Got it!" button to dismiss
@@ -170,13 +170,12 @@ Located in `assets/images/pages/`
 
 | Item | Position (x%, y%) | Name | Child-Friendly Explanation |
 |------|-------------------|------|---------------------------|
-| Ultrasound Machine | 55%, 45% | "Ultrasound Machine" | "This special machine takes pictures of inside your tummy using sound waves. It doesn't hurt at all!" |
-| Probe | 58%, 52% | "Probe" | "This is called a probe. The doctor moves it gently on your skin to take pictures. It feels like a little massage!" |
-| Screen | 52%, 30% | "Screen" | "You can watch the pictures appear here. You might see your tummy, your kidneys, or even your breakfast moving around!" |
-| Bed | 65%, 65% | "Bed" | "You lie on this comfy bed during your scan. You can bring a teddy to keep you company!" |
-| Gel Bottle | 72%, 55% | "Gel" | "This is special gel. It feels warm and a bit squishy. The doctor puts it on your tummy to help take better pictures." |
-| Tissue | 78%, 60% | "Tissue" | "When your scan is finished, the doctor wipes off the gel with soft tissue. Easy!" |
-| Pictures | 85%, 25% | "Pictures" | "Lots of scan rooms have nice pictures on the walls. Anna's room had a rainbow and some fish!" |
+| Screen | 73.2%, 34.0% | "Screen" | "This is the screen where you can watch the pictures! You might see your tummy, your heart, or even your breakfast moving around. It's like magic!" |
+| Ultrasound Machine | 68.5%, 51.8% | "Ultrasound Machine" | "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!" |
+| Probe | 58%, 47% | "Probe" | "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!" |
+| Couch | 82.2%, 62.9% | "Couch" | "This is the comfy couch where you lie down during your scan. You can bring your teddy or favourite toy to keep you company!" |
+| Gel | 99.2%, 60.5% | "Gel" | "This is special gel that goes on your tummy. It feels a bit cold and squishy, like jelly! It helps the doctor take clearer pictures." |
+| Tissue Paper | 78.7%, 53.9% | "Tissue Paper" | "These are soft tissues for wiping off the gel when your scan is finished. Easy peasy - all clean in no time!" |
 
 ---
 
