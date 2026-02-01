@@ -7,10 +7,12 @@ import { useSpeech } from '../hooks/useSpeech';
 import scanRoom from '../../assets/images/scan-room.png';
 
 // Import audio files
-import ultrasoundMachineAudio from '../../assets/Ultrasound_machine.m4a';
+import screenAudio from '../../assets/screen.m4a';
+import ultrasoundMachineAudio from '../../assets/ultrasound-machine.m4a';
 
 // Map audio keys to imported files
 const audioFiles = {
+  'screen': screenAudio,
   'ultrasound-machine': ultrasoundMachineAudio
 };
 

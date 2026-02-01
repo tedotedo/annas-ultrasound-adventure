@@ -4,14 +4,15 @@ export const hotspots = [
     name: 'Screen',
     x: 73.2,
     y: 34.0,
-    explanation: "This is the screen where you can watch the pictures! You might see your tummy, your heart, or even your breakfast moving around. It's like magic!"
+    explanation: "This is the screen where you can watch the pictures! You'll be able to see inside your tummy, you might even see your breakfast moving around. It's like magic!",
+    audio: 'screen'
   },
   {
     id: 'ultrasound-machine',
     name: 'Ultrasound Machine',
     x: 68.5,
     y: 51.8,
-    explanation: "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!",
+    explanation: "This clever machine is called an ultrasound scanner. It uses sound waves to peek inside your body and make pictures. It's completely silent and gentle - you won't feel anything!",
     audio: 'ultrasound-machine'
   },
   {
