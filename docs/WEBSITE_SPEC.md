@@ -174,20 +174,22 @@ Located in `assets/images/pages/`
 - Full-width scan room image (`scan-room.png` in assets/images/)
 - 6 interactive hotspots with pulse animation
 - Info panel slides up from bottom when hotspot tapped
-- Text-to-speech reads explanation
+- Recorded audio plays for each hotspot (with TTS fallback)
 - "Got it!" button to dismiss
 - Legend buttons below image for easy access
 
-**Hotspots:**
+**Hotspots with Recorded Audio:**
 
-| Item | Position (x%, y%) | Name | Child-Friendly Explanation |
-|------|-------------------|------|---------------------------|
-| Screen | 73.2%, 34.0% | "Screen" | "This is the screen where you can watch the pictures! You might see your tummy, your heart, or even your breakfast moving around. It's like magic!" |
-| Ultrasound Machine | 68.5%, 51.8% | "Ultrasound Machine" | "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!" |
-| Probe | 65.4%, 47.4% | "Probe" | "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!" |
-| Couch | 82.2%, 62.9% | "Couch" | "This is the comfy couch where you lie down during your scan. You can bring your teddy or favourite toy to keep you company!" |
-| Gel | 99.2%, 60.5% | "Gel" | "This is special gel that goes on your tummy. It feels a bit cold and squishy, like jelly! It helps the doctor take clearer pictures." |
-| Tissue Paper | 78.7%, 53.9% | "Tissue Paper" | "These are soft tissues for wiping off the gel when your scan is finished. Easy peasy - all clean in no time!" |
+| Item | Position (x%, y%) | Audio File | Caption |
+|------|-------------------|------------|---------|
+| Screen | 73.2%, 34.0% | `screen.m4a` | "This is the screen where you can watch the pictures! You'll be able to see inside your tummy, you might even see your breakfast moving around. It's like magic!" |
+| Ultrasound Machine | 68.5%, 51.8% | `ultrasound-machine.m4a` | "This clever machine is called an ultrasound scanner. It uses sound waves to peek inside your body and make pictures. It's completely silent and gentle - you won't feel anything!" |
+| Probe | 65.4%, 47.4% | `probe.m4a` | "This is the probe. It needs special gel to help it glide smoothly over your tummy and take clear pictures. The gel feels a bit squidgy!" |
+| Couch | 82.2%, 62.9% | `couch.m4a` | "This is the comfy couch where you lie for your scan. Would you like to bring a cuddly toy like Tedrick with you?" |
+| Gel | 99.2%, 60.5% | `gel.m4a` | "This is the special gel that goes on your tummy. It feels a bit squidgy! It helps us take clear pictures." |
+| Tissue Paper | 78.7%, 53.9% | `tissues.m4a` | "These are soft tissues for wiping off the gel when we've finished" |
+
+**Audio Files Location:** `assets/` folder
 
 ---
 
@@ -384,4 +386,13 @@ src/
 - Updated child-friendly explanations for all scan room hotspots
 
 ### How to Update Hotspot Voice Scripts
-To change the voice/text for scan room hotspots, edit `src/data/hotspots.js`. Each hotspot has an `explanation` field that controls both the displayed text and the spoken audio.
+To change the voice/text for scan room hotspots:
+1. Record new audio in Voice Memos app on iPhone
+2. Add the .m4a file to `assets/` folder
+3. Update `src/data/hotspots.js` - change the `explanation` field for the caption text
+4. Update `src/pages/Explore.jsx` - import the audio file and add to `audioFiles` map
+
+### February 2025
+- Added recorded audio for all 6 scan room hotspots (replacing TTS)
+- Audio files: screen.m4a, ultrasound-machine.m4a, probe.m4a, couch.m4a, gel.m4a, tissues.m4a
+- Updated all hotspot captions to match recordings
