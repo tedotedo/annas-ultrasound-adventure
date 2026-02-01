@@ -9,11 +9,19 @@ import scanRoom from '../../assets/images/scan-room.png';
 // Import audio files
 import screenAudio from '../../assets/screen.m4a';
 import ultrasoundMachineAudio from '../../assets/ultrasound-machine.m4a';
+import probeAudio from '../../assets/probe.m4a';
+import couchAudio from '../../assets/couch.m4a';
+import gelAudio from '../../assets/gel.m4a';
+import tissueAudio from '../../assets/tissues.m4a';
 
 // Map audio keys to imported files
 const audioFiles = {
   'screen': screenAudio,
-  'ultrasound-machine': ultrasoundMachineAudio
+  'ultrasound-machine': ultrasoundMachineAudio,
+  'probe': probeAudio,
+  'couch': couchAudio,
+  'gel': gelAudio,
+  'tissue-paper': tissueAudio
 };
 
 function Explore() {

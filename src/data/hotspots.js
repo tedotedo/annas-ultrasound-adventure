@@ -20,27 +20,31 @@ export const hotspots = [
     name: 'Probe',
     x: 65.4,
     y: 47.4,
-    explanation: "This is called a probe. The doctor gently moves it on your tummy to take pictures. It feels like a little massage and tickles a bit!"
+    explanation: "This is the probe. It needs special gel to help it glide smoothly over your tummy and take clear pictures. The gel feels a bit squidgy!",
+    audio: 'probe'
   },
   {
     id: 'couch',
     name: 'Couch',
     x: 82.2,
     y: 62.9,
-    explanation: "This is the comfy couch where you lie down during your scan. You can bring your teddy or favourite toy to keep you company!"
+    explanation: "This is the comfy couch where you lie for your scan. Would you like to bring a cuddly toy like Tedrick with you?",
+    audio: 'couch'
   },
   {
     id: 'gel',
     name: 'Gel',
     x: 99.2,
     y: 60.5,
-    explanation: "This is special gel that goes on your tummy. It feels a bit cold and squishy, like jelly! It helps the doctor take clearer pictures."
+    explanation: "This is the special gel that goes on your tummy. It feels a bit squidgy! It helps us take clear pictures.",
+    audio: 'gel'
   },
   {
     id: 'tissue-paper',
     name: 'Tissue Paper',
     x: 78.7,
     y: 53.9,
-    explanation: "These are soft tissues for wiping off the gel when your scan is finished. Easy peasy - all clean in no time!"
+    explanation: "These are soft tissues for wiping off the gel when we've finished",
+    audio: 'tissue-paper'
   }
 ];
