@@ -10,27 +10,20 @@ function Book() {
       label: 'Kindle Edition',
       icon: '📱',
       description: 'Read on your device',
-      url: 'https://www.amazon.co.uk/dp/XXXXX', // Placeholder - replace with actual URL
+      url: 'https://www.amazon.co.uk/dp/B0GKQ61CT8',
       bgColor: 'bg-gradient-to-br from-blue-100 to-blue-200',
       hoverBorder: 'hover:border-blue-400',
+      available: true,
     },
     {
       id: 'paperback',
       label: 'Paperback',
       icon: '📖',
-      description: 'Perfect for little hands',
-      url: 'https://www.amazon.co.uk/dp/XXXXX', // Placeholder - replace with actual URL
+      description: 'Coming Soon',
+      url: null,
       bgColor: 'bg-gradient-to-br from-amber-100 to-orange-200',
       hoverBorder: 'hover:border-orange-400',
-    },
-    {
-      id: 'hardback',
-      label: 'Hardback',
-      icon: '📕',
-      description: 'A keepsake edition',
-      url: 'https://www.amazon.co.uk/dp/XXXXX', // Placeholder - replace with actual URL
-      bgColor: 'bg-gradient-to-br from-purple-100 to-purple-200',
-      hoverBorder: 'hover:border-purple-400',
+      available: false,
     },
   ];
 
@@ -91,30 +84,50 @@ function Book() {
           </h3>
 
           {purchaseOptions.map((option) => (
-            <a
-              key={option.id}
-              href={option.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`block w-full ${option.bgColor} rounded-xl py-4 px-5
-                         shadow-md hover:shadow-lg
-                         transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
-                         border border-white/70 ${option.hoverBorder}
-                         focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2`}
-            >
-              <div className="flex items-center gap-4">
-                <span className="text-3xl">{option.icon}</span>
-                <div className="flex-1">
-                  <span className="font-bold text-text-dark font-heading block">
-                    {option.label}
-                  </span>
-                  <span className="text-sm text-text-light">
-                    {option.description}
-                  </span>
+            option.available ? (
+              <a
+                key={option.id}
+                href={option.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`block w-full ${option.bgColor} rounded-xl py-4 px-5
+                           shadow-md hover:shadow-lg
+                           transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
+                           border border-white/70 ${option.hoverBorder}
+                           focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-offset-2`}
+              >
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl">{option.icon}</span>
+                  <div className="flex-1">
+                    <span className="font-bold text-text-dark font-heading block">
+                      {option.label}
+                    </span>
+                    <span className="text-sm text-text-light">
+                      {option.description}
+                    </span>
+                  </div>
+                  <span className="text-text-light text-lg">→</span>
                 </div>
-                <span className="text-text-light text-lg">→</span>
+              </a>
+            ) : (
+              <div
+                key={option.id}
+                className={`block w-full ${option.bgColor} rounded-xl py-4 px-5
+                           shadow-md opacity-70 border border-white/70`}
+              >
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl">{option.icon}</span>
+                  <div className="flex-1">
+                    <span className="font-bold text-text-dark font-heading block">
+                      {option.label}
+                    </span>
+                    <span className="text-sm text-text-light italic">
+                      {option.description}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </a>
+            )
           ))}
         </div>
 
