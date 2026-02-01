@@ -99,7 +99,7 @@ function Explore() {
             <button
               key={hotspot.id}
               onClick={() => handleHotspotClick(hotspot)}
-              className={`absolute w-8 h-8 md:w-10 md:h-10 rounded-full
+              className={`absolute w-6 h-6 md:w-8 md:h-8 rounded-full
                          bg-primary-blue/80 border-2 border-white
                          transform -translate-x-1/2 -translate-y-1/2
                          transition-all duration-300

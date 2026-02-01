@@ -11,7 +11,7 @@ export const hotspots = [
     id: 'ultrasound-machine',
     name: 'Ultrasound Machine',
     x: 68.5,
-    y: 51.8,
+    y: 54.5,
     explanation: "This clever machine is called an ultrasound scanner. It uses sound waves to peek inside your body and make pictures. It's completely silent and gentle - you won't feel anything!",
     audio: 'ultrasound-machine'
   },
@@ -19,7 +19,7 @@ export const hotspots = [
     id: 'probe',
     name: 'Probe',
     x: 65.4,
-    y: 47.4,
+    y: 44.5,
     explanation: "This is the probe. It needs special gel to help it glide smoothly over your tummy and take clear pictures. The gel feels a bit squidgy!",
     audio: 'probe'
   },
