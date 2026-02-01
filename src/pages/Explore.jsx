@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { hotspots } from '../data/hotspots';
 import { useSpeech } from '../hooks/useSpeech';
@@ -6,16 +6,49 @@ import { useSpeech } from '../hooks/useSpeech';
 // Import scan room image
 import scanRoom from '../../assets/images/scan-room.png';
 
+// Import audio files
+import ultrasoundMachineAudio from '../../assets/Ultrasound_machine.m4a';
+
+// Map audio keys to imported files
+const audioFiles = {
+  'ultrasound-machine': ultrasoundMachineAudio
+};
+
 function Explore() {
   const [selectedHotspot, setSelectedHotspot] = useState(null);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef(null);
   const { speak, stop, isSpeaking, currentId } = useSpeech();
 
   const handleHotspotClick = (hotspot) => {
+    // Stop any current audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    stop();
+
     setSelectedHotspot(hotspot);
-    speak(hotspot.explanation, hotspot.id);
+
+    // If hotspot has a recorded audio file, play it
+    if (hotspot.audio && audioFiles[hotspot.audio]) {
+      const audio = new Audio(audioFiles[hotspot.audio]);
+      audioRef.current = audio;
+      setIsPlayingAudio(true);
+      audio.play().catch(console.error);
+      audio.onended = () => setIsPlayingAudio(false);
+    } else {
+      // Fall back to text-to-speech
+      speak(hotspot.explanation, hotspot.id);
+    }
   };
 
   const handleClose = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlayingAudio(false);
     stop();
     setSelectedHotspot(null);
   };
@@ -115,7 +148,7 @@ function Explore() {
                 </h2>
 
                 {/* Speaker indicator */}
-                {isSpeaking && currentId === selectedHotspot.id && (
+                {(isPlayingAudio || (isSpeaking && currentId === selectedHotspot.id)) && (
                   <div className="flex items-center justify-center gap-2 mb-3 text-primary-blue">
                     <svg className="w-5 h-5 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>

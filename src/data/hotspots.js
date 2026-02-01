@@ -11,7 +11,8 @@ export const hotspots = [
     name: 'Ultrasound Machine',
     x: 68.5,
     y: 51.8,
-    explanation: "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!"
+    explanation: "This is the ultrasound machine. It uses sound waves to take pictures of inside your body. Don't worry - you can't hear the sound and it doesn't hurt at all!",
+    audio: 'ultrasound-machine'
   },
   {
     id: 'probe',
