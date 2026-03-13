@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import Confetti from 'react-confetti';
 import { checklistSections } from '../data/checklistItems';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLanguage } from '../i18n';
 
 function Checklist() {
+  const { t } = useLanguage();
   const [checkedItems, setCheckedItems] = useLocalStorage('annas-ultrasound-checklist', {});
   const [expandedSections, setExpandedSections] = useState(
     checklistSections.reduce((acc, section) => ({ ...acc, [section.id]: true }), {})
@@ -51,6 +53,11 @@ function Checklist() {
     return `${completed}/${section.items.length}`;
   };
 
+  // Translation helpers
+  const getSectionTitle = (section) => t.checklist.sections[section.id]?.title || section.title;
+  const getSectionEmoji = (section) => t.checklist.sections[section.id]?.emoji || section.emoji;
+  const getItemLabel = (item) => t.checklist.items[item.id] || item.label;
+
   return (
     <div className="min-h-screen bg-gradient-fun">
       {/* Confetti */}
@@ -72,23 +79,23 @@ function Checklist() {
                      font-semibold mb-6 transition-colors"
         >
           <span className="text-xl">←</span>
-          <span>Back to Home</span>
+          <span>{t.common.backToHome}</span>
         </Link>
 
         {/* Header */}
         <header className="text-center mb-6">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-2">
-            Getting Ready Checklist
+            {t.checklist.title}
           </h1>
           <p className="text-text-light text-base md:text-lg">
-            Tick off each item as you get ready!
+            {t.checklist.subtitle}
           </p>
         </header>
 
         {/* Progress Bar */}
         <div className="bg-white/80 rounded-2xl p-4 mb-6 shadow-lg">
           <div className="flex justify-between items-center mb-2">
-            <span className="font-semibold text-text-dark">Your Progress</span>
+            <span className="font-semibold text-text-dark">{t.checklist.progress}</span>
             <span className="font-bold text-primary-blue">{progress}%</span>
           </div>
           <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
@@ -99,7 +106,9 @@ function Checklist() {
             />
           </div>
           <p className="text-sm text-text-light mt-2 text-center">
-            {completedItems} of {totalItems} items completed
+            {t.checklist.itemsCompleted
+              .replace('{completed}', completedItems)
+              .replace('{total}', totalItems)}
           </p>
         </div>
 
@@ -107,10 +116,10 @@ function Checklist() {
         {isComplete && (
           <div className="bg-success-green/10 border-2 border-success-green rounded-2xl p-6 mb-6 text-center">
             <h2 className="text-2xl font-bold text-success-green font-heading mb-2">
-              You're Ready!
+              {t.checklist.complete.title}
             </h2>
             <p className="text-text-dark mb-4">
-              Amazing job! You've completed everything on the checklist.
+              {t.checklist.complete.message}
             </p>
             <Link
               to="/certificate"
@@ -118,7 +127,7 @@ function Checklist() {
                          hover:bg-green-600 transition-colors
                          focus:outline-none focus:ring-2 focus:ring-success-green focus:ring-offset-2"
             >
-              Get Your Certificate!
+              {t.checklist.complete.getCertificate}
             </Link>
           </div>
         )}
@@ -143,13 +152,13 @@ function Checklist() {
                              focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-blue"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{section.emoji}</span>
+                    <span className="text-2xl">{getSectionEmoji(section)}</span>
                     <div>
                       <h2 className="font-bold text-text-dark font-heading">
-                        {section.title}
+                        {getSectionTitle(section)}
                       </h2>
                       <span className="text-sm text-text-light">
-                        {getSectionProgress(section)} done
+                        {getSectionProgress(section)} {t.checklist.done}
                       </span>
                     </div>
                   </div>
@@ -215,7 +224,7 @@ function Checklist() {
                                          ? 'text-text-light line-through'
                                          : 'text-text-dark'}`}
                           >
-                            {item.label}
+                            {getItemLabel(item)}
                           </span>
                         </button>
                       );
@@ -231,13 +240,13 @@ function Checklist() {
         <div className="mt-8 text-center">
           <button
             onClick={() => {
-              if (window.confirm('Are you sure you want to reset your checklist?')) {
+              if (window.confirm(t.checklist.resetConfirm)) {
                 setCheckedItems({});
               }
             }}
             className="text-text-light text-sm hover:text-text-dark transition-colors underline"
           >
-            Reset checklist
+            {t.checklist.reset}
           </button>
         </div>
       </div>

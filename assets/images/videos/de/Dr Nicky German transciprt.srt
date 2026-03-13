@@ -1,0 +1,3 @@
+1
+00:00:00,000 --> 00:00:03,000
+Hallo, ich bin Doktor Nicky. Die Untersuchungen tun überhaupt nicht weh. [reassuring] Sie verwenden nur Schallwellen, um Bilder zu machen. Das ist ein bisschen so, wie Delfine Schall benutzen, um unter Wasser zu sehen. [curious] Wenn du Fragen zu deiner Untersuchung hast, kannst du mich jederzeit fragen [reassuring].

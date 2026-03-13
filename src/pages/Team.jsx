@@ -1,206 +1,134 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { characters } from '../data/characters';
 import { useSpeech } from '../hooks/useSpeech';
+import { useLanguage } from '../i18n';
 
 // Import character images (resized versions)
 import annaImg from '../../assets/images/characters/reszied_images/anna.jpg';
-import mum from '../../assets/images/characters/reszied_images/annas-mum.jpg';
-import tedrick from '../../assets/images/characters/reszied_images/Tedrick.png';
-import nicky from '../../assets/images/characters/reszied_images/nicky.jpg';
-import carly from '../../assets/images/characters/reszied_images/carly.png';
+import mumImg from '../../assets/images/characters/reszied_images/annas-mum.jpg';
+import tedrickImg from '../../assets/images/characters/reszied_images/Tedrick.png';
+import nickyImg from '../../assets/images/characters/reszied_images/nicky.jpg';
+import carlyImg from '../../assets/images/characters/reszied_images/carly.png';
 
-// Import character videos
-import annaVideo from '../../assets/images/videos/anna_explains_nothing_to_be_scared_of.mp4';
-import mumVideo from '../../assets/images/videos/annas-mum-video.mp4';
-import tedrickVideo from '../../assets/images/videos/tedrick-portrait-video.mp4';
-import carlyVideo from '../../assets/images/videos/carly.mp4';
-import nickyVideo from '../../assets/images/videos/drnicky.mp4';
+// Import English character videos
+import annaVideoEn from '../../assets/images/videos/anna_explains_nothing_to_be_scared_of.mp4';
+import mumVideoEn from '../../assets/images/videos/annas-mum-video.mp4';
+import tedrickVideoEn from '../../assets/images/videos/tedrick-portrait-video.mp4';
+import carlyVideoEn from '../../assets/images/videos/carly.mp4';
+import nickyVideoEn from '../../assets/images/videos/drnicky.mp4';
+
+// Import German character videos and captions
+import annaVideoDe from '../../assets/images/videos/de/anna.mp4';
+import mumVideoDe from '../../assets/images/videos/de/mum.mp4';
+import nickyVideoDe from '../../assets/images/videos/de/nicky.mp4';
+import carlyVideoDe from '../../assets/images/videos/de/carly.mp4';
+import tedrickVideoDe from '../../assets/images/videos/de/tedrick.mp4';
+
+import annaCaptionsDe from '../../assets/images/videos/de/anna.vtt';
+import mumCaptionsDe from '../../assets/images/videos/de/mum.vtt';
+import nickyCaptionsDe from '../../assets/images/videos/de/nicky.vtt';
+import carlyCaptionsDe from '../../assets/images/videos/de/carly.vtt';
+import tedrickCaptionsDe from '../../assets/images/videos/de/tedrick.vtt';
 
 const imageMap = {
   'anna.jpg': annaImg,
-  'annas-mum.jpg': mum,
-  'Tedrick.png': tedrick,
-  'nicky.jpg': nicky,
-  'carly.png': carly,
+  'annas-mum.jpg': mumImg,
+  'Tedrick.png': tedrickImg,
+  'nicky.jpg': nickyImg,
+  'carly.png': carlyImg,
 };
 
+const enVideos = {
+  anna: annaVideoEn,
+  mum: mumVideoEn,
+  tedrick: tedrickVideoEn,
+  carly: carlyVideoEn,
+  nicky: nickyVideoEn,
+};
+
+const deVideos = {
+  anna: annaVideoDe,
+  mum: mumVideoDe,
+  tedrick: tedrickVideoDe,
+  carly: carlyVideoDe,
+  nicky: nickyVideoDe,
+};
+
+const deCaptions = {
+  anna: annaCaptionsDe,
+  mum: mumCaptionsDe,
+  tedrick: tedrickCaptionsDe,
+  carly: carlyCaptionsDe,
+  nicky: nickyCaptionsDe,
+};
+
+function getVideo(language, characterId) {
+  if (language === 'de' && deVideos[characterId]) {
+    return deVideos[characterId];
+  }
+  return enVideos[characterId];
+}
+
 function Team() {
+  const { t, language } = useLanguage();
   const { speak, stop, isSpeaking, currentId } = useSpeech();
-  const [annaPlaying, setAnnaPlaying] = useState(false);
-  const [mumPlaying, setMumPlaying] = useState(false);
-  const [tedrickPlaying, setTedrickPlaying] = useState(false);
-  const [carlyPlaying, setCarlyPlaying] = useState(false);
-  const [nickyPlaying, setNickyPlaying] = useState(false);
-  const annaVideoRef = useRef(null);
-  const mumVideoRef = useRef(null);
-  const tedrickVideoRef = useRef(null);
-  const carlyVideoRef = useRef(null);
-  const nickyVideoRef = useRef(null);
+  const [playingId, setPlayingId] = useState(null);
+  const videoRefs = useRef({});
 
-  const stopAllVideos = () => {
-    if (annaPlaying) {
-      annaVideoRef.current?.pause();
-      annaVideoRef.current.currentTime = 0;
-      setAnnaPlaying(false);
-    }
-    if (mumPlaying) {
-      mumVideoRef.current?.pause();
-      mumVideoRef.current.currentTime = 0;
-      setMumPlaying(false);
-    }
-    if (tedrickPlaying) {
-      tedrickVideoRef.current?.pause();
-      tedrickVideoRef.current.currentTime = 0;
-      setTedrickPlaying(false);
-    }
-    if (carlyPlaying) {
-      carlyVideoRef.current?.pause();
-      carlyVideoRef.current.currentTime = 0;
-      setCarlyPlaying(false);
-    }
-    if (nickyPlaying) {
-      nickyVideoRef.current?.pause();
-      nickyVideoRef.current.currentTime = 0;
-      setNickyPlaying(false);
-    }
-  };
+  const stopAllVideos = useCallback(() => {
+    Object.values(videoRefs.current).forEach((ref) => {
+      if (ref) {
+        ref.pause();
+        ref.currentTime = 0;
+      }
+    });
+    setPlayingId(null);
+  }, []);
 
-  const handleCardClick = (character) => {
-    // Special handling for Anna - play video instead of TTS
-    if (character.id === 'anna') {
-      if (annaPlaying) {
-        annaVideoRef.current?.pause();
-        annaVideoRef.current.currentTime = 0;
-        setAnnaPlaying(false);
+  const handleCardClick = useCallback((character) => {
+    const videoSrc = getVideo(language, character.id);
+
+    if (videoSrc) {
+      if (playingId === character.id) {
+        // Stop this video
+        const ref = videoRefs.current[character.id];
+        if (ref) {
+          ref.pause();
+          ref.currentTime = 0;
+        }
+        setPlayingId(null);
       } else {
-        stop(); // Stop any other TTS
-        stopAllVideos(); // Stop other videos
-        setAnnaPlaying(true);
-        const playPromise = annaVideoRef.current?.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.error('Anna video play failed:', error);
-            setAnnaPlaying(false);
-          });
+        // Stop everything and play this video
+        stop();
+        stopAllVideos();
+        setPlayingId(character.id);
+        const ref = videoRefs.current[character.id];
+        if (ref) {
+          const playPromise = ref.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((error) => {
+              console.error(`${character.id} video play failed:`, error);
+              setPlayingId(null);
+            });
+          }
         }
       }
-      return;
-    }
-
-    // Special handling for Mum - play video instead of TTS
-    if (character.id === 'mum') {
-      if (mumPlaying) {
-        mumVideoRef.current?.pause();
-        mumVideoRef.current.currentTime = 0;
-        setMumPlaying(false);
-      } else {
-        stop(); // Stop any other TTS
-        stopAllVideos(); // Stop other videos
-        setMumPlaying(true);
-        const playPromise = mumVideoRef.current?.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.error('Mum video play failed:', error);
-            setMumPlaying(false);
-          });
-        }
-      }
-      return;
-    }
-
-    // Special handling for Tedrick - play video instead of TTS
-    if (character.id === 'tedrick') {
-      if (tedrickPlaying) {
-        tedrickVideoRef.current?.pause();
-        tedrickVideoRef.current.currentTime = 0;
-        setTedrickPlaying(false);
-      } else {
-        stop(); // Stop any other TTS
-        stopAllVideos(); // Stop other videos
-        setTedrickPlaying(true);
-        const playPromise = tedrickVideoRef.current?.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.error('Tedrick video play failed:', error);
-            setTedrickPlaying(false);
-          });
-        }
-      }
-      return;
-    }
-
-    // Special handling for Carly - play video instead of TTS
-    if (character.id === 'carly') {
-      if (carlyPlaying) {
-        carlyVideoRef.current?.pause();
-        carlyVideoRef.current.currentTime = 0;
-        setCarlyPlaying(false);
-      } else {
-        stop(); // Stop any other TTS
-        stopAllVideos(); // Stop other videos
-        setCarlyPlaying(true);
-        const playPromise = carlyVideoRef.current?.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.error('Carly video play failed:', error);
-            setCarlyPlaying(false);
-          });
-        }
-      }
-      return;
-    }
-
-    // Special handling for Dr Nicky - play video instead of TTS
-    if (character.id === 'nicky') {
-      if (nickyPlaying) {
-        nickyVideoRef.current?.pause();
-        nickyVideoRef.current.currentTime = 0;
-        setNickyPlaying(false);
-      } else {
-        stop(); // Stop any other TTS
-        stopAllVideos(); // Stop other videos
-        setNickyPlaying(true);
-        const playPromise = nickyVideoRef.current?.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.error('Dr Nicky video play failed:', error);
-            setNickyPlaying(false);
-          });
-        }
-      }
-      return;
-    }
-
-    // Stop all videos if playing
-    stopAllVideos();
-
-    if (isSpeaking && currentId === character.id) {
-      stop();
     } else {
-      speak(character.audio, character.id);
+      // Fallback to TTS
+      stopAllVideos();
+      const audioText = t.characters[character.id]?.audio || character.audio;
+      if (isSpeaking && currentId === character.id) {
+        stop();
+      } else {
+        speak(audioText, character.id);
+      }
     }
-  };
+  }, [language, playingId, stop, stopAllVideos, isSpeaking, currentId, speak, t]);
 
-  const handleAnnaVideoEnd = () => {
-    setAnnaPlaying(false);
-  };
-
-  const handleMumVideoEnd = () => {
-    setMumPlaying(false);
-  };
-
-  const handleTedrickVideoEnd = () => {
-    setTedrickPlaying(false);
-  };
-
-  const handleCarlyVideoEnd = () => {
-    setCarlyPlaying(false);
-  };
-
-  const handleNickyVideoEnd = () => {
-    setNickyPlaying(false);
-  };
+  const handleVideoEnd = useCallback((characterId) => {
+    setPlayingId(null);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-fun">
@@ -212,35 +140,26 @@ function Team() {
                      font-semibold mb-6 transition-colors"
         >
           <span className="text-xl">←</span>
-          <span>Back to Home</span>
+          <span>{t.common.backToHome}</span>
         </Link>
 
         {/* Header */}
         <header className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-2">
-            Say Hello!
+            {t.team.title}
           </h1>
           <p className="text-text-light text-base md:text-lg">
-            Tap on a character to hear them say hello!
+            {t.team.subtitle}
           </p>
         </header>
 
         {/* Character Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {characters.map((character) => {
-            const isActive = character.id === 'anna'
-              ? annaPlaying
-              : character.id === 'mum'
-              ? mumPlaying
-              : character.id === 'tedrick'
-              ? tedrickPlaying
-              : character.id === 'carly'
-              ? carlyPlaying
-              : character.id === 'nicky'
-              ? nickyPlaying
-              : (isSpeaking && currentId === character.id);
-
-            const hasVideo = true; // All characters now have videos
+            const isActive = playingId === character.id || (isSpeaking && currentId === character.id);
+            const videoSrc = getVideo(language, character.id);
+            const captionsSrc = language === 'de' ? deCaptions[character.id] : null;
+            const charName = t.characters[character.id]?.name || character.name;
 
             return (
               <button
@@ -254,107 +173,32 @@ function Team() {
               >
                 {/* Character Image or Video */}
                 <div className="relative mb-3">
-                  {character.id === 'anna' ? (
-                    // Anna has a video
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
-                      <img
-                        src={imageMap[character.image]}
-                        alt={character.name}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${annaPlaying ? 'opacity-0' : 'opacity-100'}`}
-                      />
-                      <video
-                        ref={annaVideoRef}
-                        src={annaVideo}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${annaPlaying ? 'opacity-100' : 'opacity-0'}`}
-                        onEnded={handleAnnaVideoEnd}
-                        playsInline
-                        muted={false}
-                        preload="auto"
-                      />
-                    </div>
-                  ) : character.id === 'mum' ? (
-                    // Mum has a video
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
-                      <img
-                        src={imageMap[character.image]}
-                        alt={character.name}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-0' : 'opacity-100'}`}
-                      />
-                      <video
-                        ref={mumVideoRef}
-                        src={mumVideo}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${mumPlaying ? 'opacity-100' : 'opacity-0'}`}
-                        onEnded={handleMumVideoEnd}
-                        playsInline
-                        muted={false}
-                        preload="auto"
-                      />
-                    </div>
-                  ) : character.id === 'tedrick' ? (
-                    // Tedrick has a video
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
-                      <img
-                        src={imageMap[character.image]}
-                        alt={character.name}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${tedrickPlaying ? 'opacity-0' : 'opacity-100'}`}
-                      />
-                      <video
-                        ref={tedrickVideoRef}
-                        src={tedrickVideo}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${tedrickPlaying ? 'opacity-100' : 'opacity-0'}`}
-                        onEnded={handleTedrickVideoEnd}
-                        playsInline
-                        muted={false}
-                        preload="auto"
-                      />
-                    </div>
-                  ) : character.id === 'carly' ? (
-                    // Carly has a video
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
-                      <img
-                        src={imageMap[character.image]}
-                        alt={character.name}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${carlyPlaying ? 'opacity-0' : 'opacity-100'}`}
-                      />
-                      <video
-                        ref={carlyVideoRef}
-                        src={carlyVideo}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${carlyPlaying ? 'opacity-100' : 'opacity-0'}`}
-                        onEnded={handleCarlyVideoEnd}
-                        playsInline
-                        muted={false}
-                        preload="auto"
-                      />
-                    </div>
-                  ) : character.id === 'nicky' ? (
-                    // Dr Nicky has a video
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
-                      <img
-                        src={imageMap[character.image]}
-                        alt={character.name}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${nickyPlaying ? 'opacity-0' : 'opacity-100'}`}
-                      />
-                      <video
-                        ref={nickyVideoRef}
-                        src={nickyVideo}
-                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${nickyPlaying ? 'opacity-100' : 'opacity-0'}`}
-                        onEnded={handleNickyVideoEnd}
-                        playsInline
-                        muted={false}
-                        preload="auto"
-                      />
-                    </div>
-                  ) : (
+                  <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-soft-blue relative">
                     <img
                       src={imageMap[character.image]}
-                      alt={character.name}
-                      className="w-24 h-24 md:w-32 md:h-32 mx-auto object-contain rounded-full
-                                 bg-soft-blue p-2"
+                      alt={charName}
+                      className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${
+                        playingId === character.id ? 'opacity-0' : 'opacity-100'
+                      }`}
                     />
-                  )}
+                    {videoSrc && (
+                      <video
+                        ref={(el) => { videoRefs.current[character.id] = el; }}
+                        key={`${character.id}-${language}`}
+                        src={videoSrc}
+                        className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${
+                          playingId === character.id ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        onEnded={() => handleVideoEnd(character.id)}
+                        playsInline
+                        muted={false}
+                        preload="auto"
+                      />
+                    )}
+                  </div>
 
                   {/* Speaker/Play icon */}
-                  <div className={`absolute bottom-0 right-1/2 ${hasVideo ? 'translate-x-12 md:translate-x-16' : 'translate-x-8 md:translate-x-12'}
+                  <div className={`absolute bottom-0 right-1/2 translate-x-12 md:translate-x-16
                                   w-8 h-8 rounded-full flex items-center justify-center
                                   transition-all duration-300
                                   ${isActive
@@ -375,13 +219,32 @@ function Team() {
 
                 {/* Character Name */}
                 <h2 className="text-lg md:text-xl font-bold text-text-dark font-heading text-center">
-                  {character.name}
+                  {charName}
                 </h2>
 
                 {/* Tap hint */}
-                <p className="text-xs text-text-light mt-1 text-center">
-                  {isActive ? 'Tap to stop' : 'Tap to hear me!'}
+                <p className={`text-xs text-text-light mt-1 text-center ${isActive ? 'hidden' : 'block'}`}>
+                  {t.team.tapToHear}
                 </p>
+                
+                {/* Transcript Text (shows only when playing) */}
+                {isActive && (
+                  <div className="mt-4 p-4 bg-teal-50 border-l-4 border-teal-500 rounded-r-xl text-left shadow-inner relative overflow-hidden">
+                    {/* Decorative quote mark */}
+                    <span className="absolute top-2 right-2 text-teal-200 text-4xl font-serif leading-none italic select-none pointer-events-none">
+                      "
+                    </span>
+                    <p className="text-gray-800 text-sm md:text-base leading-relaxed relative z-10 font-medium whitespace-pre-line">
+                      {t.characters[character.id]?.audio || character.audio}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-wider text-teal-600/70 mt-3 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                      </svg>
+                      {t.team.tapToStop}
+                    </p>
+                  </div>
+                )}
               </button>
             );
           })}
@@ -390,7 +253,7 @@ function Team() {
         {/* Info text */}
         <div className="mt-8 text-center">
           <p className="text-text-light text-sm">
-            You'll meet all these friends in Anna's story!
+            {t.team.footer}
           </p>
         </div>
       </div>

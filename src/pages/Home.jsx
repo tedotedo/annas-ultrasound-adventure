@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
+import { useLanguage } from '../i18n';
 
 // Import images and videos from the book
 import scanRoom from '../../assets/images/scenes/scan_room.png';
@@ -7,6 +8,7 @@ import backgroundVideoDesktop from '../../assets/images/scenes/Animated_Chat_Vid
 import backgroundVideoMobile from '../../assets/images/scenes/Animated_Chat_Video_Generation_9by16.mp4';
 
 function Home() {
+  const { t } = useLanguage();
   const videoRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -48,32 +50,33 @@ function Home() {
     video.addEventListener('timeupdate', handleTimeUpdate);
     return () => video.removeEventListener('timeupdate', handleTimeUpdate);
   }, []);
+
   const menuItems = [
     {
       to: '/team',
-      label: 'Say Hello!',
-      description: 'Meet Anna, Tedrick and friends',
+      label: t.home.menu.sayHello,
+      description: t.home.menu.sayHelloDesc,
       bgColor: 'bg-gradient-to-br from-pink-100 to-pink-200',
       borderColor: 'hover:border-pink-400',
     },
     {
       to: '/explore',
-      label: 'Explore the Scan Room',
-      description: "See what's inside",
+      label: t.home.menu.explore,
+      description: t.home.menu.exploreDesc,
       bgColor: 'bg-gradient-to-br from-blue-100 to-blue-200',
       borderColor: 'hover:border-blue-400',
     },
     {
       to: '/checklist',
-      label: 'Getting Ready Checklist',
-      description: 'Prepare for your visit',
+      label: t.home.menu.checklist,
+      description: t.home.menu.checklistDesc,
       bgColor: 'bg-gradient-to-br from-green-100 to-green-200',
       borderColor: 'hover:border-green-400',
     },
     {
       to: '/book',
-      label: 'Get the Book',
-      description: "Read Anna's story",
+      label: t.home.menu.book,
+      description: t.home.menu.bookDesc,
       bgColor: 'bg-gradient-to-br from-amber-100 to-orange-200',
       borderColor: 'hover:border-orange-400',
     },
@@ -124,17 +127,17 @@ function Home() {
           <div className="mb-3 md:mb-4">
             <img
               src={scanRoom}
-              alt="Anna with Tedrick and Mum in the scan room"
+              alt={t.home.heroAlt}
               className="w-64 md:w-80 object-contain rounded-3xl border-4 border-white shadow-lg mx-auto animate-float-slow"
             />
           </div>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-1 md:mb-2">
-            Anna's Ultrasound
-            <span className="block text-primary-blue">Adventure</span>
+            {t.common.appTitleLine1}
+            <span className="block text-primary-blue">{t.common.appTitleLine2}</span>
           </h1>
           <p className="text-base md:text-lg text-text-light font-semibold">
-            Get ready for your scan with Anna and Tedrick!
+            {t.home.tagline}
           </p>
         </header>
 
@@ -178,10 +181,10 @@ function Home() {
             <div className="flex items-center gap-2">
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-bold text-text-dark font-heading block">
-                  About & Privacy
+                  {t.home.menu.about}
                 </span>
                 <span className="text-xs text-text-light/90 block">
-                  Meet the author and more
+                  {t.home.menu.aboutDesc}
                 </span>
               </div>
               <span className="text-text-light/60 text-base flex-shrink-0">→</span>
@@ -192,7 +195,7 @@ function Home() {
         {/* Footer */}
         <footer className="mt-auto pt-4 md:pt-6 text-center">
           <p className="text-text-light text-sm">
-            Based on the book by Dr Moira McCarty
+            {t.home.footer}
           </p>
         </footer>
       </div>

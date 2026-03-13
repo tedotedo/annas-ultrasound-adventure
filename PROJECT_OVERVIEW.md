@@ -22,8 +22,9 @@ The interactive website was built by **Dr Odet Mark Aszkenasy**, Consultant Paed
 | Framework | React 19 + Vite 7 |
 | Styling | Tailwind CSS 4 |
 | Routing | React Router DOM 7 |
+| Internationalisation | Custom i18n Context (`de` and `en`) |
 | Persistent Storage | `localStorage` (checklist & certificate name) |
-| Audio | Web Speech API (TTS) + recorded `.m4a` files |
+| Audio | Web Speech API (TTS) + recorded `.m4a`/`.mp3` files |
 | Celebrations | `react-confetti` |
 | Certificate Export | `html2canvas` (downloads as PNG at 2× scale) |
 | Hosting | Netlify (static site) |
@@ -155,6 +156,8 @@ annas-ultrasound-adventure/
 - Anna spans the full width on mobile (col-span-2)
 - Each card shows character photo; **tap to play introduction video** (or TTS audio as fallback)
 - Video plays inline with crossfade from static image to video (`opacity` CSS transition)
+- High contrast animated **transcript text box** appears below character while playing.
+- German language (`de`) uses its own `.mp4` video files with built-in `<track>` WebVTT subtitles for accessibility.
 - Only one video plays at a time — others are paused when a new one starts
 - TTS also cancelled when switching
 - Uses **resized images** from `reszied_images/` as thumbnails (faster loading)
@@ -186,12 +189,12 @@ annas-ultrasound-adventure/
 **Hotspots:**
 | Name | x% | y% | Audio file |
 |---|---|---|---|
-| Screen | 73.2 | 34.0 | `screen.m4a` |
-| Ultrasound Machine | 68.5 | 54.5 | `ultrasound-machine.m4a` |
-| Probe | 65.4 | 44.5 | `probe.m4a` |
-| Couch | 82.2 | 62.9 | `couch.m4a` |
-| Gel | 99.2 | 60.5 | `gel.m4a` |
-| Tissue Paper | 78.7 | 53.9 | `tissues.m4a` |
+| Screen | 61.2 | 38.1 | `screen.m4a` (EN), `screen-de.mp3` (DE) |
+| Ultrasound Machine | 62.6 | 51.1 | `ultrasound-machine.m4a` (EN), `ultrasound-machine-de.mp3` (DE) |
+| Probe | 56.7 | 50.7 | `probe.m4a` (EN), `probe-de.mp3` (DE) |
+| Couch | 66.0 | 67.2 | `couch.m4a` (EN), `couch-de.mp3` (DE) |
+| Gel | 84.4 | 63.2 | `gel.m4a` (EN), `gel-de.mp3` (DE) |
+| Tissue Paper | 91.8 | 60.3 | `tissues.m4a` (EN), `tissue-de.mp3` (DE) |
 
 **To update a hotspot voice script:**
 1. Record new audio in Voice Memos (iPhone)
@@ -361,6 +364,13 @@ annas-ultrasound-adventure/
 ---
 
 ## 📝 Changelog Summary
+
+### March 2026
+- Built complete internationalization (`i18n`) system supporting English (EN) and German (DE).
+- Integrated new scan room object coordinates to match updated background image.
+- Implemented dedicated German audio clips for scan room hotspots.
+- Implemented custom German character videos with `.vtt` WebVTT caption tracks for accessibility.
+- Redesigned Team character cards to display an animated, high-contrast transcript text box instead of tiny video subtitles.
 
 ### February 2026
 - Added recorded m4a audio for all 6 scan room hotspots (replacing TTS)

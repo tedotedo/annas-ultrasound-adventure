@@ -1,0 +1,18 @@
+1
+00:00:00,000 --> 00:00:03,880
+[cheerful]Hallo, ich bin Carly und ich arbeite in der
+Ultraschallabteilung!
+
+2
+00:00:03,880 --> 00:00:08,993
+[reassuring] [cheerful]Meine Aufgabe ist es, dafür zu sorgen, dass du
+dich glücklich und wohl fühlst.
+
+3
+00:00:09,193 --> 00:00:11,281
+[cheerful] Ich zeige dir alles!
+
+4
+00:00:11,481 --> 00:00:13,949
+Und am Ende darfst du dir einen Sticker aussuchen!
+

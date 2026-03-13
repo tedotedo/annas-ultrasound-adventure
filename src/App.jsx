@@ -6,10 +6,12 @@ import Explore from './pages/Explore';
 import Checklist from './pages/Checklist';
 import Book from './pages/Book';
 import Certificate from './pages/Certificate';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 function App() {
   return (
     <BrowserRouter>
+      <LanguageSwitcher />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

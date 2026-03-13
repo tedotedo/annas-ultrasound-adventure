@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../i18n';
 
 // Import a book page image to use as cover preview
 import bookCover from '../../assets/images/pages/part5_page01.png';
 
 function Book() {
+  const { t } = useLanguage();
+
   const purchaseOptions = [
     {
       id: 'kindle',
-      label: 'Kindle Edition',
+      label: t.book.kindle,
       icon: '📱',
-      description: 'Read on your device',
+      description: t.book.kindleDesc,
       url: 'https://www.amazon.co.uk/dp/B0GKQ61CT8',
       bgColor: 'bg-gradient-to-br from-blue-100 to-blue-200',
       hoverBorder: 'hover:border-blue-400',
@@ -17,9 +20,9 @@ function Book() {
     },
     {
       id: 'paperback',
-      label: 'Paperback',
+      label: t.book.paperback,
       icon: '📖',
-      description: 'Coming Soon',
+      description: t.book.paperbackDesc,
       url: null,
       bgColor: 'bg-gradient-to-br from-amber-100 to-orange-200',
       hoverBorder: 'hover:border-orange-400',
@@ -37,16 +40,16 @@ function Book() {
                      font-semibold mb-6 transition-colors"
         >
           <span className="text-xl">←</span>
-          <span>Back to Home</span>
+          <span>{t.common.backToHome}</span>
         </Link>
 
         {/* Header */}
         <header className="text-center mb-6">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-2">
-            Get the Book
+            {t.book.title}
           </h1>
           <p className="text-text-light text-base md:text-lg">
-            Read the full story of Anna's adventure!
+            {t.book.subtitle}
           </p>
         </header>
 
@@ -56,7 +59,7 @@ function Book() {
           <div className="mb-6">
             <img
               src={bookCover}
-              alt="Anna's Ultrasound Adventure book cover"
+              alt={t.book.coverAlt}
               className="w-48 md:w-56 mx-auto rounded-lg shadow-lg border-4 border-white"
             />
           </div>
@@ -64,15 +67,13 @@ function Book() {
           {/* Book Info */}
           <div className="text-center">
             <h2 className="text-xl md:text-2xl font-bold text-text-dark font-heading mb-1">
-              Anna's Ultrasound Adventure
+              {t.book.bookTitle}
             </h2>
             <p className="text-primary-blue font-semibold mb-4">
-              By Dr Moira McCarty
+              {t.book.bookAuthor}
             </p>
             <p className="text-text-dark leading-relaxed">
-              Follow Anna's ultrasound adventure in this beautifully illustrated book.
-              Perfect for reading together before your child's scan to help them
-              feel calm and prepared.
+              {t.book.bookDesc}
             </p>
           </div>
         </div>
@@ -80,10 +81,10 @@ function Book() {
         {/* Purchase Options */}
         <div className="space-y-3">
           <h3 className="text-lg font-bold text-text-dark font-heading text-center mb-4">
-            Choose your format
+            {t.book.chooseFormat}
           </h3>
 
-          {purchaseOptions.map((option) => (
+          {purchaseOptions.map((option) =>
             option.available ? (
               <a
                 key={option.id}
@@ -128,16 +129,16 @@ function Book() {
                 </div>
               </div>
             )
-          ))}
+          )}
         </div>
 
         {/* Note */}
         <div className="mt-8 text-center">
           <p className="text-text-light text-sm">
-            Available on Amazon UK
+            {t.book.amazonNote}
           </p>
           <p className="text-text-light text-xs mt-2">
-            Links will open in a new window
+            {t.book.newWindow}
           </p>
         </div>
       </div>

@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { checklistSections } from '../data/checklistItems';
+import { useLanguage } from '../i18n';
 
 // Import character images
 import anna from '../../assets/images/characters/anna.jpg';
 import tedrick from '../../assets/images/characters/Tedrick.png';
 
 function Certificate() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const certificateRef = useRef(null);
   const [checkedItems] = useLocalStorage('annas-ultrasound-checklist', {});
@@ -64,6 +66,13 @@ function Certificate() {
     }
   };
 
+  // Format date with locale
+  const today = new Date().toLocaleDateString(t.common.locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
   // Show message if checklist not complete
   if (!isChecklistComplete) {
     return (
@@ -71,31 +80,25 @@ function Certificate() {
         <div className="bg-white/90 rounded-2xl p-8 shadow-xl text-center max-w-md">
           <span className="text-5xl mb-4 block">📋</span>
           <h1 className="text-2xl font-bold text-text-dark font-heading mb-4">
-            Complete Your Checklist First!
+            {t.certificate.notComplete.title}
           </h1>
           <p className="text-text-light mb-6">
-            Finish all the items on the checklist to unlock your special certificate.
+            {t.certificate.notComplete.message}
           </p>
           <p className="text-sm text-text-light mb-4">
-            Redirecting to checklist...
+            {t.certificate.notComplete.redirecting}
           </p>
           <Link
             to="/checklist"
             className="inline-block bg-primary-blue text-white font-bold py-3 px-6 rounded-xl
                        hover:bg-blue-600 transition-colors"
           >
-            Go to Checklist
+            {t.certificate.notComplete.goToChecklist}
           </Link>
         </div>
       </div>
     );
   }
-
-  const today = new Date().toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
 
   return (
     <div className="min-h-screen bg-gradient-fun py-6 md:py-8">
@@ -107,30 +110,30 @@ function Certificate() {
                      font-semibold mb-6 transition-colors"
         >
           <span className="text-xl">←</span>
-          <span>Back to Home</span>
+          <span>{t.common.backToHome}</span>
         </Link>
 
         {/* Header */}
         <header className="text-center mb-6">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-text-dark font-heading mb-2">
-            Your Certificate
+            {t.certificate.title}
           </h1>
           <p className="text-text-light text-base md:text-lg">
-            You did it! Enter your name to create your certificate.
+            {t.certificate.subtitle}
           </p>
         </header>
 
         {/* Name Input */}
         <div className="bg-white/90 rounded-2xl p-6 shadow-lg mb-6">
           <label htmlFor="name" className="block text-text-dark font-semibold mb-2">
-            Your Name
+            {t.certificate.nameLabel}
           </label>
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name here"
+            placeholder={t.certificate.namePlaceholder}
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200
                        focus:border-primary-blue focus:outline-none
                        text-lg text-text-dark"
@@ -158,22 +161,22 @@ function Certificate() {
               {/* Header */}
               <div className="text-center">
                 <h2 className="text-lg md:text-xl text-primary-blue font-semibold mb-1">
-                  Certificate of Bravery
+                  {t.certificate.certTitle}
                 </h2>
                 <h3 className="text-2xl md:text-4xl font-extrabold text-text-dark font-heading">
-                  I Was Brave Like Anna!
+                  {t.certificate.certSubtitle}
                 </h3>
               </div>
 
               {/* Name */}
               <div className="text-center py-4">
-                <p className="text-text-light text-sm mb-1">This certifies that</p>
+                <p className="text-text-light text-sm mb-1">{t.certificate.certifies}</p>
                 <p className="text-3xl md:text-5xl font-bold text-warm-orange font-heading
                              min-h-[1.5em] border-b-4 border-dotted border-warm-orange/50 px-4">
-                  {name || 'Your Name'}
+                  {name || t.certificate.nameFallback}
                 </p>
                 <p className="text-text-light text-sm mt-2">
-                  completed all their preparation for their ultrasound scan
+                  {t.certificate.certMessage}
                 </p>
               </div>
 
@@ -195,7 +198,7 @@ function Certificate() {
               <div className="text-center">
                 <p className="text-text-light text-xs">{today}</p>
                 <p className="text-primary-blue font-semibold text-sm mt-1">
-                  Anna's Ultrasound Adventure
+                  {t.common.appTitle}
                 </p>
               </div>
             </div>
@@ -220,11 +223,11 @@ function Certificate() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Creating...
+                {t.certificate.creating}
               </>
             ) : (
               <>
-                <span>Download Certificate</span>
+                <span>{t.certificate.download}</span>
                 <span className="text-xl">📥</span>
               </>
             )}
@@ -232,7 +235,7 @@ function Certificate() {
 
           {!name.trim() && (
             <p className="text-text-light text-sm mt-3">
-              Enter your name above to download
+              {t.certificate.enterName}
             </p>
           )}
         </div>
@@ -240,7 +243,7 @@ function Certificate() {
         {/* Print hint */}
         <div className="mt-8 text-center">
           <p className="text-text-light text-sm">
-            Tip: You can print this certificate and put it on your fridge!
+            {t.certificate.printTip}
           </p>
         </div>
       </div>

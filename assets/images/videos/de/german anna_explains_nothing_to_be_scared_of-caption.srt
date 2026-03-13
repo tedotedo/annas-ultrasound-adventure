@@ -1,0 +1,21 @@
+1
+00:00:00,200 --> 00:00:02,122
+Hallo, ich bin Anna!
+
+2
+00:00:02,322 --> 00:00:08,513
+Ich war ein bisschen nervös wegen meiner Untersuchung, aber es war
+eigentlich ganz gut.
+
+3
+00:00:08,513 --> 00:00:11,608
+Carly und Dr. Nicky haben mir alles erklärt.
+
+4
+00:00:11,608 --> 00:00:15,540
+Mama und Tedrick waren bei mir und das hat auch geholfen!
+
+5
+00:00:15,540 --> 00:00:18,887
+Jetzt weiß ich, dass man keine Angst haben muss!
+
