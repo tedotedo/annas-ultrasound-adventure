@@ -16,7 +16,7 @@ export default {
       exploreDesc: 'Schau, was drin ist',
       checklist: 'Vorbereitungsliste',
       checklistDesc: 'Bereite dich auf deinen Besuch vor',
-      book: 'Hol dir das Buch',
+      book: 'Lies die ganze Geschichte',
       bookDesc: 'Lies Annas Geschichte',
       about: 'Über uns & Datenschutz',
       aboutDesc: 'Über die Autorin und mehr',
@@ -147,7 +147,7 @@ export default {
   },
 
   book: {
-    title: 'Hol dir das Buch',
+    title: 'Lies die ganze Geschichte',
     subtitle: 'Lies die ganze Geschichte von Annas Abenteuer!',
     bookTitle: 'Annas Ultraschall-Abenteuer',
     bookAuthor: 'Von Dr. Moira McCarty',
